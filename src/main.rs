@@ -602,6 +602,11 @@ mod tests {
 
     #[test]
     fn test_move_file_identical_dedup() {
+        // Dedup removes the source through `rkvr rmrf`, which CI runners don't have.
+        if Command::new("rkvr").arg("--version").output().is_err() {
+            eprintln!("skipping: rkvr not on PATH");
+            return;
+        }
         let src_dir = TempDir::new().expect("temp dir");
         let dest_dir = TempDir::new().expect("temp dir");
         let content = b"identical content";
