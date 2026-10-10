@@ -1,2 +1,2 @@
-# kondo
+# Kondo
 Marie Kondo Organization App -- Everything in its Place

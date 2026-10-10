@@ -103,9 +103,9 @@ impl Report {
 
         // Header
         if dry_run {
-            println!("{}", "kondo report (dry run)".cyan().bold());
+            println!("{}", "Kondo report (dry run)".cyan().bold());
         } else {
-            println!("{}", "kondo report".cyan().bold());
+            println!("{}", "Kondo report".cyan().bold());
         }
 
         // Summary counts

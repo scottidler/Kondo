@@ -26,12 +26,12 @@ use report::{Action, Report};
 fn setup_logging() -> Result<()> {
     let log_dir = xdg_data_dir()
         .unwrap_or_else(|| PathBuf::from("."))
-        .join("kondo")
+        .join(env!("CARGO_PKG_NAME"))
         .join("logs");
 
     fs::create_dir_all(&log_dir).context("Failed to create log directory")?;
 
-    let log_file = log_dir.join("kondo.log");
+    let log_file = log_dir.join(format!("{}.log", env!("CARGO_PKG_NAME")));
 
     let target = Box::new(
         fs::OpenOptions::new()
@@ -375,9 +375,9 @@ fn organize(
     Ok(report)
 }
 
-/// Get the path to the kondo binary
+/// Get the path to the Kondo binary
 fn kondo_binary_path() -> Result<PathBuf> {
-    std::env::current_exe().context("Failed to determine kondo binary path")
+    std::env::current_exe().context("Failed to determine Kondo binary path")
 }
 
 /// Install a user cron job
@@ -389,7 +389,7 @@ fn install_cron(schedule: &str, config_path: Option<&PathBuf>) -> Result<()> {
     }
 
     let cron_line = format!("{} {}", schedule, cmd);
-    let marker = "# kondo-auto";
+    let marker = "# Kondo-auto";
 
     // Read existing crontab
     let existing = Command::new("crontab")
@@ -398,7 +398,7 @@ fn install_cron(schedule: &str, config_path: Option<&PathBuf>) -> Result<()> {
         .map(|o| String::from_utf8_lossy(&o.stdout).to_string())
         .unwrap_or_default();
 
-    // Remove any existing kondo lines
+    // Remove any existing Kondo lines
     let filtered: Vec<&str> = existing.lines().filter(|line| !line.contains(marker)).collect();
 
     let mut new_crontab = filtered.join("\n");
@@ -430,9 +430,9 @@ fn install_cron(schedule: &str, config_path: Option<&PathBuf>) -> Result<()> {
     Ok(())
 }
 
-/// Remove the kondo cron job
+/// Remove the Kondo cron job
 fn uninstall_cron() -> Result<()> {
-    let marker = "# kondo-auto";
+    let marker = "# Kondo-auto";
 
     let existing = Command::new("crontab")
         .arg("-l")
@@ -499,7 +499,7 @@ fn main() -> Result<()> {
     if cli.verbose || cli.dry_run {
         println!(
             "{} Scanning {} source(s) with {} extension rule(s)",
-            "kondo".cyan().bold(),
+            "Kondo".cyan().bold(),
             config.sources.len(),
             ext_map.len()
         );

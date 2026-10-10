@@ -24,12 +24,12 @@ fn get_tool_validation_help() -> String {
     let cron_status = check_cron_status();
     help.push_str(&format!("CRON STATUS:\n  {}\n", cron_status));
 
-    help.push_str("\nLogs are written to: ~/.local/share/kondo/logs/kondo.log");
+    help.push_str("\nLogs are written to: ~/.local/share/Kondo/logs/Kondo.log");
     help
 }
 
 pub fn check_cron_status() -> String {
-    let marker = "# kondo-auto";
+    let marker = "# Kondo-auto";
     match Command::new("crontab").arg("-l").output() {
         Ok(output) if output.status.success() => {
             let crontab = String::from_utf8_lossy(&output.stdout);
@@ -45,10 +45,10 @@ pub fn check_cron_status() -> String {
                 };
                 format!("✅ installed: {}{}", entry, description)
             } else {
-                "❌ not installed (use: kondo cron install)".to_string()
+                "❌ not installed (use: Kondo cron install)".to_string()
             }
         }
-        _ => "❌ not installed (use: kondo cron install)".to_string(),
+        _ => "❌ not installed (use: Kondo cron install)".to_string(),
     }
 }
 
@@ -178,7 +178,7 @@ fn check_tool(tool: &str, version_arg: &str) -> ToolStatus {
 
 #[derive(Parser)]
 #[command(
-    name = "kondo",
+    name = "Kondo",
     about = "Organize files by moving them to the right directories based on extension",
     version = env!("GIT_DESCRIBE"),
     after_help = HELP_TEXT.as_str()
@@ -210,7 +210,7 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Commands {
-    /// Manage the kondo cron job
+    /// Manage the Kondo cron job
     Cron {
         /// Action to perform
         action: CronAction,
