@@ -117,7 +117,7 @@ fn dashify_file(path: &Path, dry_run: bool) -> Result<PathBuf> {
             "dashify renamed {} but couldn't find result at {}",
             path.display(),
             new_path.display()
-        )
+        );
     }
 }
 
