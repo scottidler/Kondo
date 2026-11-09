@@ -180,7 +180,7 @@ fn check_tool(tool: &str, version_arg: &str) -> ToolStatus {
 #[command(
     name = "Kondo",
     about = "Organize files by moving them to the right directories based on extension",
-    version = env!("GIT_DESCRIBE"),
+    version = env!("BUILD_VERSION"),
     after_help = HELP_TEXT.as_str()
 )]
 pub struct Cli {
